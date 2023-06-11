@@ -14,7 +14,7 @@ import Vue from "vue";
 export default Vue.extend({});
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .nav{
   border: 1px red solid;
 }

@@ -9,13 +9,15 @@
 
 <script lang="ts">
 import Vue from "vue";
+import NavBottom from '@/components/NavBottom.vue'
 
-export default Vue.extend({});
+export default Vue.extend({
+  components:{NavBottom}
+});
 </script>
 
 <style scoped lang="scss">
 .nav-wrapper {
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   height: 100vh;

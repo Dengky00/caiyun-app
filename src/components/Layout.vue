@@ -9,10 +9,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import NavBottom from '@/components/NavBottom.vue'
+import NavBottom from "@/components/NavBottom.vue";
 
 export default Vue.extend({
-  components:{NavBottom}
+  components: { NavBottom },
 });
 </script>
 

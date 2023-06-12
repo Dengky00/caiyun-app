@@ -1,5 +1,9 @@
 module.exports = {
   root: true,
+  // 表示__WebpackModuleApi是一个全局变量
+  globals: {
+    "__WebpackModuleApi": true
+  },
   env: {
     node: true
   },
@@ -15,7 +19,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     // 关闭名称校验
-    'vue/multi-word-component-names': "off"
+    'vue/multi-word-component-names': "off",
   },
   overrides: [
     {

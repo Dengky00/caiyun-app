@@ -25,5 +25,6 @@ export default Vue.extend({
 .icon {
   width: 1em;
   height: 1em;
+  fill:currentColor;
 }
 </style>

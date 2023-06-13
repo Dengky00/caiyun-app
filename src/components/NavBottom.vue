@@ -26,6 +26,7 @@ nav {
   display: flex;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   font-size: 12px;
+  color: #d3ad13;
   > .item {
     padding: 4px 0;
     flex-grow: 1;
@@ -33,13 +34,15 @@ nav {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    opacity: 0.6;
     > .icon {
       width: 32px;
       height: 32px;
     }
   }
   > .item.selected {
-    background-color: rgb(222, 222, 222);
+    opacity: 1;
+    // background-color: rgb(222, 222, 222);
   }
 }
 </style>

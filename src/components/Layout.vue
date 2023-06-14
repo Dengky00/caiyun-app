@@ -1,6 +1,7 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div class="layout-wrapper" :class="classPrefix&&`${classPrefix}-wrapper`">
+    <div class="content" :class="classPrefix&&`${classPrefix}-content`">
+      <!-- 插槽 -->
       <slot></slot>
     </div>
     <NavBottom />
@@ -12,12 +13,13 @@ import Vue from "vue";
 import NavBottom from "@/components/NavBottom.vue";
 
 export default Vue.extend({
+  props: ["classPrefix"],
   components: { NavBottom },
 });
 </script>
 
 <style scoped lang="scss">
-.nav-wrapper {
+.layout-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;

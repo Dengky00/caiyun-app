@@ -22,9 +22,10 @@ export default Vue.extend({});
 </script>
 
 <style scoped lang="scss">
+@import "~@/assets/style/helper.scss";
 nav {
+  @extend %outerShadow;
   display: flex;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   font-size: 12px;
   color: #d3ad13;
   > .item {
@@ -35,14 +36,13 @@ nav {
     justify-content: center;
     align-items: center;
     opacity: 0.6;
+    &.selected {
+        opacity: 1;
+      }
     > .icon {
       width: 32px;
       height: 32px;
     }
-  }
-  > .item.selected {
-    opacity: 1;
-    // background-color: rgb(222, 222, 222);
   }
 }
 </style>

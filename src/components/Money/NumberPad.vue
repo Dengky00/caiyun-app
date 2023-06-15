@@ -5,14 +5,22 @@
         <Icon name="remark" />
         备注
       </span>
-      <input type="text" placeholder="在这里输入备注" />
+      <input
+        type="text"
+        placeholder="在这里输入备注"
+        v-model="value"
+      />
     </label>
-    <div class="output"></div>
+    <div class="output" :class="output === '' && 'empty'">
+      {{ output }}
+    </div>
     <div class="buttons">
       <button>1</button>
       <button>2</button>
       <button>3</button>
-      <button class="delete"><Icon name="backspace" /></button>
+      <button class="delete">
+        <Icon name="backspace" />
+      </button>
       <button>4</button>
       <button>5</button>
       <button>6</button>
@@ -28,8 +36,54 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 
-export default Vue.extend({});
+@Component
+export default class NumberPad extends Vue {
+  value = "";
+  output = "";
+  inputContent(event: Event) {
+    //记账输入方法
+    const button = event.target as HTMLButtonElement;
+    const input = button.textContent!; //使用'!'表示确保变量的值不为null或undefined
+    const length = this.output.length;
+    if (button.className === "delete") {
+      this.output = this.output.substring(0, length - 1);
+    } else if (button.className === "ok") {
+      console.log("ok");
+    } else {
+      if (length >= 16) {
+        //最长16位数字
+        return;
+      }
+      if (this.output === "" && input === ".") {
+        //不能直接输入小数点
+        return;
+      }
+      if (this.output.indexOf(".") >= 0 && input === ".") {
+        //不能重复输入小数点
+        return;
+      }
+      if (this.output === "0") {
+        if (input === ".") {
+          this.output += input;
+        } else {
+          this.output = input;
+        }
+      } else {
+        this.output += input;
+      }
+    }
+  }
+  mounted() {
+    const numPad = document.querySelectorAll(".buttons>button");
+    numPad.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        this.inputContent(e);
+      });
+    });
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -58,7 +112,8 @@ export default Vue.extend({});
     font-family: Consolas, monospace;
     padding: 9px 16px;
     text-align: right;
-    &:empty:before {
+    height: 70px;
+    &.empty:before {
       //div模拟placeholder占位符
       content: "输入记账金额";
       color: #999;

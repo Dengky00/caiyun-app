@@ -1,6 +1,6 @@
 <template>
-  <div class="layout-wrapper" :class="classPrefix&&`${classPrefix}-wrapper`">
-    <div class="content" :class="classPrefix&&`${classPrefix}-content`">
+  <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <!-- 插槽 -->
       <slot></slot>
     </div>
@@ -10,12 +10,17 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 import NavBottom from "@/components/NavBottom.vue";
 
-export default Vue.extend({
-  props: ["classPrefix"],
-  components: { NavBottom },
-});
+@Component({
+  components: {
+    NavBottom,
+  },
+})
+export default class Layout extends Vue {
+  @Prop(String) classPrefix: string | undefined;
+}
 </script>
 
 <style scoped lang="scss">

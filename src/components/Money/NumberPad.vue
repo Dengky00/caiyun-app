@@ -1,18 +1,7 @@
 <template>
   <div class="numberPad">
-    <label class="notes">
-      <span class="name">
-        <Icon name="remark" />
-        备注
-      </span>
-      <input
-        type="text"
-        placeholder="在这里输入备注"
-        v-model="value"
-      />
-    </label>
-    <div class="output" :class="output === '' && 'empty'">
-      {{ output }}
+    <div class="amount" :class="amount === '' && 'empty'">
+      {{ amount }}
     </div>
     <div class="buttons">
       <button>1</button>
@@ -40,38 +29,38 @@ import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class NumberPad extends Vue {
-  value = "";
-  output = "";
+  amount = "";
   inputContent(event: Event) {
     //记账输入方法
     const button = event.target as HTMLButtonElement;
     const input = button.textContent!; //使用'!'表示确保变量的值不为null或undefined
-    const length = this.output.length;
+    const length = this.amount.length;
     if (button.className === "delete") {
-      this.output = this.output.substring(0, length - 1);
+      //删除按钮
+      this.amount = this.amount.slice(0, -1);
     } else if (button.className === "ok") {
-      console.log("ok");
+      this.$emit("update:amount", this.amount);
     } else {
       if (length >= 16) {
         //最长16位数字
         return;
       }
-      if (this.output === "" && input === ".") {
+      if (this.amount === "" && input === ".") {
         //不能直接输入小数点
         return;
       }
-      if (this.output.indexOf(".") >= 0 && input === ".") {
+      if (this.amount.indexOf(".") >= 0 && input === ".") {
         //不能重复输入小数点
         return;
       }
-      if (this.output === "0") {
+      if (this.amount === "0") {
         if (input === ".") {
-          this.output += input;
+          this.amount += input;
         } else {
-          this.output = input;
+          this.amount = input;
         }
       } else {
-        this.output += input;
+        this.amount += input;
       }
     }
   }
@@ -89,24 +78,7 @@ export default class NumberPad extends Vue {
 <style scoped lang="scss">
 @import "~@/assets/style/helper.scss";
 .numberPad {
-  > .notes {
-    display: flex;
-    align-items: center;
-    background: #f5f5f5;
-    font-size: 16px;
-    padding-left: 16px;
-    > .name {
-      padding-right: 16px;
-    }
-    > input {
-      height: 64px;
-      flex-grow: 1;
-      background: transparent;
-      border: none;
-      padding-right: 16px;
-    }
-  }
-  > .output {
+  > .amount {
     @extend %innerShadow;
     font-size: 34px;
     font-family: Consolas, monospace;

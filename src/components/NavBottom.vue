@@ -27,7 +27,7 @@ nav {
   @extend %outerShadow;
   display: flex;
   font-size: 12px;
-  color: #d3ad13;
+  color: darken($yellow, 24%);
   > .item {
     padding: 4px 0;
     flex-grow: 1;
@@ -42,6 +42,7 @@ nav {
     > .icon {
       width: 32px;
       height: 32px;
+      color: $yellow;
     }
   }
 }

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Money from '@/views/MoneyView.vue'
-import Labels from '@/views/LabelsView.vue'
-import Statistics from '@/views/StatisticsView.vue'
+import MoneyView from '@/views/MoneyView.vue'
+import LabelsView from '@/views/LabelsView.vue'
+import StatisticsView from '@/views/StatisticsView.vue'
 import NotFound from '@/views/NotFound.vue'
 
 Vue.use(VueRouter)
@@ -14,15 +14,15 @@ const routes: Array<RouteConfig> = [
   },
   {
     path:'/money',
-    component:Money,
+    component:MoneyView,
   },
   {
     path:'/labels',
-    component:Labels,
+    component:LabelsView,
   },
   {
     path:'/statistics',
-    component:Statistics,
+    component:StatisticsView,
   },
   {
     path:'*',

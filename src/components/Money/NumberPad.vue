@@ -39,7 +39,11 @@ export default class NumberPad extends Vue {
       //删除按钮
       this.amount = this.amount.slice(0, -1);
     } else if (button.className === "ok") {
-      this.$emit("update:amount", this.amount);
+      //ok提交按钮
+      if (this.amount !== "") {
+        this.$emit("update:amount", this.amount);
+        this.amount = "";
+      }
     } else {
       if (length >= 16) {
         //最长16位数字

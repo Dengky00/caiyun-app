@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import Types from "@/components/Money/Types.vue";
 import Tags from "@/components/Money/Tags.vue";
 import Remark from "@/components/Money/Remark.vue";
@@ -32,6 +32,7 @@ type Record = {
 })
 export default class MoneyView extends Vue {
   tags = ["衣", "食", "住", "行"];
+  recordList:Record[]=[]
   record: Record = { type: "-", selectedtags: [], remark: "", amount: 0 };
   //收集功能组件中用户提交的数据
   onUpdateSelectedTags(selectedtags: string[]) {
@@ -40,9 +41,18 @@ export default class MoneyView extends Vue {
   onUpdateRemark(remark: string) {
     this.record.remark = remark;
   }
-  onUpdateAmount(amount: string) {
+  onUpdateAmount(amount: string) { 
     this.record.amount = parseFloat(amount);
+    //提交记录
+    const recordClon=JSON.parse(JSON.stringify(this.record))
+    this.recordList.push(recordClon)
   }
+  //提交数据保存至localStorage
+  @Watch("recordList")
+  onRecordListChanged() {
+    window.localStorage.setItem('recordList',JSON.stringify(this.recordList))
+  }
+
 }
 </script>
 

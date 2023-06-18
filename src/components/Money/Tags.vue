@@ -19,12 +19,14 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import tagListModel from "@/models/tagListModel";
 
 @Component
 export default class Tags extends Vue {
   @Prop(Array) readonly dataSource: string[] | undefined;
   selectedTags: string[] = [];
   toggle(tag: string) {
+    //是否选中tag
     const index = this.selectedTags.indexOf(tag);
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
@@ -34,11 +36,16 @@ export default class Tags extends Vue {
     this.$emit("update:selectedTags", this.selectedTags);
   }
   create() {
+    //创建新tag
     const name = window.prompt("请输入标签名");
-    if (name === "") {
-      window.alert("标签名不能为空");
-    } else if (this.dataSource) {
-      this.$emit("update:dataSource", [...this.dataSource, name]);
+    if (name && this.dataSource) {
+      const message = tagListModel.create(name);
+      if (message === "duplicated") {
+        window.alert("标签名重复!");
+      } else if (message === "success") {
+        window.alert("添加成功!");
+      }
+      // this.$emit("update:dataSource", [...this.dataSource, name]);
     }
   }
 }

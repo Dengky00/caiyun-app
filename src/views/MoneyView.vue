@@ -1,7 +1,7 @@
 <template>
   <Layout classPrefix="layout">
     <Types :type.sync="record.type" />
-    <Tags @update:selectedTags="onUpdateSelectedTags" :dataSource.sync="tags" />
+    <Tags @update:selectedTags="onUpdateSelectedTags" :dataSource="tags" />
     <Remark @update:remark="onUpdateRemark" />
     <NumberPad @update:amount="onUpdateAmount" />
   </Layout>
@@ -14,9 +14,11 @@ import Types from "@/components/Money/Types.vue";
 import Tags from "@/components/Money/Tags.vue";
 import Remark from "@/components/Money/Remark.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
-import model from "@/model";
+import recordListModel from "@/models/recordListModel";
+import tagListModel from "@/models/tagListModel";
 
-const recordList = model.fetch();
+const recordList = recordListModel.fetch();
+const tagList = tagListModel.fetch();
 
 @Component({
   components: {
@@ -27,7 +29,7 @@ const recordList = model.fetch();
   },
 })
 export default class MoneyView extends Vue {
-  tags = ["衣", "食", "住", "行"];
+  tags = tagList;
   recordList: RecordItem[] = recordList;
   record: RecordItem = { type: "-", selectedtags: [], remark: "", amount: 0 };
   //收集功能组件中用户提交的数据
@@ -40,14 +42,14 @@ export default class MoneyView extends Vue {
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
     //更新提交记账数据记录
-    const recordClone = model.clone(this.record);
+    const recordClone = recordListModel.clone(this.record);
     recordClone.createdAt = new Date();
     this.recordList.push(recordClone);
   }
   //提交数据保存至localStorage
   @Watch("recordList")
   onRecordListChanged() {
-    model.save(this.recordList);
+    recordListModel.save(this.recordList);
   }
 }
 </script>

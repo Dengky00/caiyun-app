@@ -30,6 +30,7 @@ module.exports = {
   ],
   globals: {
     "__WebpackModuleApi": true,// 表示__WebpackModuleApi是一个全局变量
-    "RecordItem":true,
+    "RecordItem": true,
+    'Tag': true,
   },
 }

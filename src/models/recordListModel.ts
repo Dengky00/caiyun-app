@@ -1,4 +1,4 @@
-const localStorageKeyName = 'tagList'
+const localStorageKeyName = 'recordList'
 const tagListModel = {
     fetch() {//读取
         return JSON.parse(window.localStorage.getItem(localStorageKeyName) || "[]") as RecordItem[]

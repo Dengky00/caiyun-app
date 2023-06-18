@@ -1,8 +1,8 @@
 <template>
   <Layout>
     <ol class="tags">
-      <li v-for="tag in tags" :key="tag">
-        <span>{{ tag }}</span>
+      <li v-for="tag in tags" :key="tag.id">
+        <span>{{ tag.name }}</span>
         <Icon name="right" />
       </li>
     </ol>
@@ -16,11 +16,10 @@
 import Vue from "vue";
 import tagListModel from "@/models/tagListModel";
 import { Component } from "vue-property-decorator";
-tagListModel.fetch();
 
 @Component
 export default class LabelsView extends Vue {
-  tags = tagListModel.data;
+  tags = tagListModel.fetch();
   createTag() {
     const name = window.prompt("请输出标签名:");
     if (name) {

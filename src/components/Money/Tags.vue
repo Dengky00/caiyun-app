@@ -3,11 +3,11 @@
     <ul class="current">
       <li
         v-for="tag in dataSource"
-        :key="tag"
-        @click="toggle(tag)"
-        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+        :key="tag.id"
+        @click="toggle(tag.name)"
+        :class="{ selected: selectedTags.indexOf(tag.name) >= 0 }"
       >
-        {{ tag }}
+        {{ tag.name }}
       </li>
     </ul>
     <div class="new">
@@ -23,7 +23,7 @@ import tagListModel from "@/models/tagListModel";
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource: string[] | undefined;
+  @Prop(Array) readonly dataSource: Tag[] | undefined;
   selectedTags: string[] = [];
   toggle(tag: string) {
     //是否选中tag

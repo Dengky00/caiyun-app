@@ -18,7 +18,7 @@ import recordListModel from "@/models/recordListModel";
 import tagListModel from "@/models/tagListModel";
 
 const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
+// const tagList = tagListModel.fetch();
 
 @Component({
   components: {
@@ -29,7 +29,7 @@ const tagList = tagListModel.fetch();
   },
 })
 export default class MoneyView extends Vue {
-  tags = tagList;
+  tags = tagListModel.fetch();
   recordList: RecordItem[] = recordList;
   record: RecordItem = { type: "-", selectedtags: [], remark: "", amount: 0 };
   //收集功能组件中用户提交的数据

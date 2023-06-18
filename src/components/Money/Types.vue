@@ -7,11 +7,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop, Watch } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Types extends Vue {
-  @Prop() readonly type!:string//使用'!'表示确保变量的值不为null或undefined
+  @Prop() readonly type!: string; //使用'!'表示确保变量的值不为null或undefined
   selectType(type: string) {
     this.$emit("update:type", type);
   }

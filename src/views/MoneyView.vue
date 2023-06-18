@@ -14,17 +14,9 @@ import Types from "@/components/Money/Types.vue";
 import Tags from "@/components/Money/Tags.vue";
 import Remark from "@/components/Money/Remark.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
+import model from "@/model";
 
-window.localStorage.setItem("version", "0.0.1");
-
-type Record = {
-  //自定义数据类型
-  type: string;
-  selectedtags: string[];
-  remark: string;
-  amount: number;
-  createdAt?: Date;
-};
+const recordList = model.fetch();
 
 @Component({
   components: {
@@ -36,10 +28,8 @@ type Record = {
 })
 export default class MoneyView extends Vue {
   tags = ["衣", "食", "住", "行"];
-  recordList: Record[] = JSON.parse(
-    window.localStorage.getItem("recordList") || "[]"
-  );
-  record: Record = { type: "-", selectedtags: [], remark: "", amount: 0 };
+  recordList: RecordItem[] = recordList;
+  record: RecordItem = { type: "-", selectedtags: [], remark: "", amount: 0 };
   //收集功能组件中用户提交的数据
   onUpdateSelectedTags(selectedtags: string[]) {
     this.record.selectedtags = selectedtags;
@@ -49,15 +39,15 @@ export default class MoneyView extends Vue {
   }
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
-    //提交记录
-    const recordClon: Record = JSON.parse(JSON.stringify(this.record));
-    recordClon.createdAt = new Date();
-    this.recordList.push(recordClon);
+    //更新提交记账数据记录
+    const recordClone = model.clone(this.record);
+    recordClone.createdAt = new Date();
+    this.recordList.push(recordClone);
   }
   //提交数据保存至localStorage
   @Watch("recordList")
   onRecordListChanged() {
-    window.localStorage.setItem("recordList", JSON.stringify(this.recordList));
+    model.save(this.recordList);
   }
 }
 </script>

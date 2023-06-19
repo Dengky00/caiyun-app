@@ -7,7 +7,8 @@
     <input
       type="text"
       :placeholder="'在这里输入' + fieldName"
-      v-model="form"
+      :value="form"
+      @input="onFormChanged($event)"
     />
   </label>
 </template>
@@ -19,10 +20,11 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class Form extends Vue {
   @Prop({ required: true }) fieldName!: string;
-  form = "";
-  @Watch("form")
-  onFormChanged(val: string) {
-    this.$emit("update:form", val);
+  @Prop({ default: "" }) readonly form!: string;
+  // @Watch("form")
+  onFormChanged(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.$emit("update:form", target.value);
   }
 }
 </script>

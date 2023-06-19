@@ -4,7 +4,7 @@
       <Icon name="left" class="leftIcon" />
       <span class="title">编辑标签</span>
     </div>
-    <FormItem fieldName="标签名" class="form" />
+    <FormItem fieldName="标签名" class="form" :form="initialTag.name" />
     <div class="button-wrapper">
       <Button>删除标签</Button>
     </div>
@@ -22,12 +22,13 @@ import Button from "@/components/Button.vue";
   components: { FormItem, Button },
 })
 export default class EditLabel extends Vue {
+  initialTag: Tag = { id: "", name: "" };
   created() {
     const id = this.$route.params.id;
     const tags = tagListModel.fetch();
     const tag = tags.filter((t) => t.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.initialTag = tag;
     } else {
       this.$router.replace("/404");
     }
@@ -53,7 +54,7 @@ export default class EditLabel extends Vue {
   margin-top: 8px;
   @extend %outerShadow;
 }
-.button-wrapper{
+.button-wrapper {
   text-align: center;
   margin-top: 50px;
 }

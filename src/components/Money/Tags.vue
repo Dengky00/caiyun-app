@@ -61,7 +61,7 @@ export default class Tags extends Vue {
     display: flex;
     flex-wrap: wrap;
     > li {
-      background: #d9d9d9;
+      @extend %outerShadow;
       min-width: 72px;
       $h: 48px;
       height: $h;

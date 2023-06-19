@@ -2,7 +2,7 @@
   <Layout classPrefix="layout">
     <Types :type.sync="record.type" />
     <Tags @update:selectedTags="onUpdateSelectedTags" :dataSource="tags" />
-    <Remark @update:remark="onUpdateRemark" />
+    <FormItem fieldName="备注" @update:form="onUpdateForm" />
     <NumberPad @update:amount="onUpdateAmount" />
   </Layout>
 </template>
@@ -12,7 +12,7 @@ import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 import Types from "@/components/Money/Types.vue";
 import Tags from "@/components/Money/Tags.vue";
-import Remark from "@/components/Money/Remark.vue";
+import FormItem from "@/components/Money/FormItem.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
 import recordListModel from "@/models/recordListModel";
 import tagListModel from "@/models/tagListModel";
@@ -24,20 +24,20 @@ const recordList = recordListModel.fetch();
   components: {
     Types,
     Tags,
-    Remark,
+    FormItem,
     NumberPad,
   },
 })
 export default class MoneyView extends Vue {
   tags = tagListModel.fetch();
   recordList: RecordItem[] = recordList;
-  record: RecordItem = { type: "-", selectedtags: [], remark: "", amount: 0 };
+  record: RecordItem = { type: "-", selectedtags: [], form: "", amount: 0 };
   //收集功能组件中用户提交的数据
   onUpdateSelectedTags(selectedtags: string[]) {
     this.record.selectedtags = selectedtags;
   }
-  onUpdateRemark(remark: string) {
-    this.record.remark = remark;
+  onUpdateForm(form: string) {
+    this.record.form = form;
   }
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);

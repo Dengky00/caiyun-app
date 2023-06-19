@@ -1,23 +1,28 @@
 <template>
   <label>
     <span class="name">
-      <Icon name="remark" />
-      备注
+      <Icon name="edit" />
+      {{ fieldName }}
     </span>
-    <input type="text" placeholder="在这里输入备注" v-model="remark" />
+    <input
+      type="text"
+      :placeholder="'在这里输入' + fieldName"
+      v-model="form"
+    />
   </label>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 
 @Component
-export default class Remark extends Vue {
-  remark = "";
-  @Watch("remark")
-  onRemarkChanged(val: string) {
-    this.$emit("update:remark", val);
+export default class Form extends Vue {
+  @Prop({ required: true }) fieldName!: string;
+  form = "";
+  @Watch("form")
+  onFormChanged(val: string) {
+    this.$emit("update:form", val);
   }
 }
 </script>

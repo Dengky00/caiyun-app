@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon name="left" class="leftIcon" @click="goBack"/>
+      <Icon name="left" class="leftIcon" @click="goBack" />
       <span class="title">编辑标签</span>
     </div>
     <FormItem
@@ -45,11 +45,15 @@ export default class EditLabel extends Vue {
   }
   remove() {
     if (this.tag) {
-      tagListModel.remove(this.tag.id);
+      if (tagListModel.remove(this.tag.id)) {
+        this.$router.replace("/labels");
+      }else{
+        window.alert('删除失败!')
+      }
     }
   }
-  goBack(){
-    this.$router.back()
+  goBack() {
+    this.$router.replace("/labels");
   }
 }
 </script>

@@ -37,7 +37,7 @@ export default class EditLabel extends Vue {
     store.updateTag(this.tag.id, name);
   }
   removeTag() {
-    if (store.removeTag(this.tag)) {
+    if (store.removeTag(this.tag.id)) {
       this.$router.replace("/labels");
     } else {
       window.alert("删除失败!");

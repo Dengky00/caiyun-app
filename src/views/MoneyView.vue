@@ -1,7 +1,7 @@
 <template>
   <Layout classPrefix="layout">
     <Types :type.sync="record.type" />
-    <Tags @update:selectedTags="onUpdateSelectedTags" :dataSource="tags" />
+    <Tags @update:selectedTags="onUpdateSelectedTags" />
     <FormItem fieldName="备注" @update:form="onUpdateForm" />
     <NumberPad @update:amount="onUpdateAmount" />
   </Layout>

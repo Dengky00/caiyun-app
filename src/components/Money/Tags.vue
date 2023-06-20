@@ -2,7 +2,7 @@
   <div class="tags">
     <ul class="current">
       <li
-        v-for="tag in dataSource"
+        v-for="tag in tagList"
         :key="tag.id"
         @click="toggle(tag.name)"
         :class="{ selected: selectedTags.indexOf(tag.name) >= 0 }"
@@ -23,7 +23,7 @@ import store from "@/store/index2";
 
 @Component
 export default class Tags extends Vue {
-  @Prop({ required: true }) readonly dataSource!: Tag[];
+  tagList = store.fetchTags();
   selectedTags: string[] = [];
   toggle(tag: string) {
     //是否选中tag

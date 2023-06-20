@@ -10,11 +10,3 @@ type Tag = {
   id: string
   name: string
 };
-type TagListModel = {
-  data: Tag[]
-  fetch: () => Tag[]
-  save: () => void
-  create: (name: string) => 'success' | 'duplicated'
-  update: (id: string, name: string) => void
-  remove: (id: string) => boolean
-};

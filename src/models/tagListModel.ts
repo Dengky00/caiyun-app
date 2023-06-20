@@ -2,8 +2,8 @@ import createId from "@/lib/createId"
 
 const localStorageKeyName = 'tagList'
 
-const tagListModel: TagListModel = {
-    data: [],
+const tagListModel = {
+    data: [] as Tag[],
     fetch() {
         this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || "[]")
         return this.data

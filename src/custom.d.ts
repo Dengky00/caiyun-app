@@ -14,10 +14,16 @@ type TagListModel = {
   data: Tag[]
   fetch: () => Tag[]
   save: () => void
-  create: (name: string) => 'success' | 'duplicated'//success表示成功,duplicated表示name重复
-  update: (id: string, name: string) => 'success' | 'not find' | 'duplicated'
+  create: (name: string) => 'success' | 'duplicated'
+  update: (id: string, name: string) => void
   remove: (id: string) => boolean
 };
-interface Window{
-  tagList:Tag[]
+interface Window {
+  recordList: RecordItem[]
+  createRecord:(record:RecordItem)=>void
+  tagList: Tag[]
+  findTag: (id: string) => Tag
+  createTag: () => void
+  updateTag: (id: string, name: string) => void
+  removeTag: (tag: Tag) => boolean
 }

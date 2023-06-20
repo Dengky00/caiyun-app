@@ -37,8 +37,8 @@ nav {
     align-items: center;
     opacity: 0.6;
     &.selected {
-        opacity: 1;
-      }
+      opacity: 1;
+    }
     > .icon {
       width: 32px;
       height: 32px;

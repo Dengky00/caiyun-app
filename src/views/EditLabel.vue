@@ -8,10 +8,10 @@
       fieldName="标签名"
       class="form"
       :form="tag.name"
-      @update:form="update"
+      @update:form="updateTag"
     />
     <div class="button-wrapper">
-      <Button @click.native="remove">删除标签</Button>
+      <Button @click.native="removeTag">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -27,29 +27,20 @@ import Button from "@/components/Button.vue";
   components: { FormItem, Button },
 })
 export default class EditLabel extends Vue {
-  tag: Tag = { id: "", name: "" };
+  tag = window.findTag(this.$route.params.id);
   created() {
-    const id = this.$route.params.id;
-    const tags = tagListModel.fetch();
-    const tag = tags.filter((t) => t.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
+    if (!this.tag) {
       this.$router.replace("/404");
     }
   }
-  update(name: string) {
-    if (this.tag) {
-      tagListModel.update(this.tag.id, name);
-    }
+  updateTag(name: string) {
+    window.updateTag(this.tag.id, name);
   }
-  remove() {
-    if (this.tag) {
-      if (tagListModel.remove(this.tag.id)) {
-        this.$router.replace("/labels");
-      } else {
-        window.alert("删除失败!");
-      }
+  removeTag() {
+    if (window.removeTag(this.tag)) {
+      this.$router.replace("/labels");
+    } else {
+      window.alert("删除失败!");
     }
   }
   goBack() {

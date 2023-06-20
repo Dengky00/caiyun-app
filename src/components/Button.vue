@@ -1,5 +1,4 @@
 <template>
-  <!-- @click="$emit('click', $event)" -->
   <button class="button"><slot></slot></button>
 </template>
 

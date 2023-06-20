@@ -9,15 +9,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import Types from "@/components/Money/Types.vue";
 import Tags from "@/components/Money/Tags.vue";
 import FormItem from "@/components/Money/FormItem.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
-import recordListModel from "@/models/recordListModel";
-import tagListModel from "@/models/tagListModel";
-
-// const recordList = recordListModel.fetch();
 
 @Component({
   components: {
@@ -29,8 +25,7 @@ import tagListModel from "@/models/tagListModel";
 })
 export default class MoneyView extends Vue {
   tags = window.tagList;
-  // tags = tagListModel.fetch();
-  recordList: RecordItem[] = recordListModel.fetch();
+  recordList = window.recordList;
   record: RecordItem = { type: "-", selectedtags: [], form: "", amount: 0 };
   //收集功能组件中用户提交的数据
   onUpdateSelectedTags(selectedtags: string[]) {
@@ -42,13 +37,8 @@ export default class MoneyView extends Vue {
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
     //更新提交记账数据
-    recordListModel.create(this.record);
+    window.createRecord(this.record);
   }
-  //提交数据保存至localStorage
-  // @Watch("recordList")
-  // onRecordListChanged() {
-  //   recordListModel.save();
-  // }
 }
 </script>
 

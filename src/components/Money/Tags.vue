@@ -11,7 +11,7 @@
       </li>
     </ul>
     <div class="new">
-      <button @click="create">新增标签</button>
+      <button @click="createTag">新增标签</button>
     </div>
   </div>
 </template>
@@ -35,17 +35,15 @@ export default class Tags extends Vue {
     }
     this.$emit("update:selectedTags", this.selectedTags);
   }
-  create() {
-    //创建新tag
+  createTag() {
     const name = window.prompt("请输入标签名");
-    if (name && this.dataSource) {
+    if (name) {
       const message = tagListModel.create(name);
       if (message === "duplicated") {
         window.alert("标签名重复!");
       } else if (message === "success") {
         window.alert("添加成功!");
       }
-      // this.$emit("update:dataSource", [...this.dataSource, name]);
     }
   }
 }

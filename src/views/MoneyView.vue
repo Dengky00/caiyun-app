@@ -28,7 +28,8 @@ import tagListModel from "@/models/tagListModel";
   },
 })
 export default class MoneyView extends Vue {
-  tags = tagListModel.fetch();
+  tags = window.tagList;
+  // tags = tagListModel.fetch();
   recordList: RecordItem[] = recordListModel.fetch();
   record: RecordItem = { type: "-", selectedtags: [], form: "", amount: 0 };
   //收集功能组件中用户提交的数据
@@ -41,7 +42,7 @@ export default class MoneyView extends Vue {
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
     //更新提交记账数据
-    recordListModel.create(this.record)
+    recordListModel.create(this.record);
   }
   //提交数据保存至localStorage
   // @Watch("recordList")

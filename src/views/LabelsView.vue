@@ -27,7 +27,8 @@ import { Component } from "vue-property-decorator";
   components: { Button },
 })
 export default class LabelsView extends Vue {
-  tags = tagListModel.fetch();
+  tags = window.tagList;
+  // tags = tagListModel.fetch();
   createTag() {
     const name = window.prompt("请输出标签名:");
     if (name) {

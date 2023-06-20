@@ -17,8 +17,7 @@ import NumberPad from "@/components/Money/NumberPad.vue";
 import recordListModel from "@/models/recordListModel";
 import tagListModel from "@/models/tagListModel";
 
-const recordList = recordListModel.fetch();
-// const tagList = tagListModel.fetch();
+// const recordList = recordListModel.fetch();
 
 @Component({
   components: {
@@ -30,7 +29,7 @@ const recordList = recordListModel.fetch();
 })
 export default class MoneyView extends Vue {
   tags = tagListModel.fetch();
-  recordList: RecordItem[] = recordList;
+  recordList: RecordItem[] = recordListModel.fetch();
   record: RecordItem = { type: "-", selectedtags: [], form: "", amount: 0 };
   //收集功能组件中用户提交的数据
   onUpdateSelectedTags(selectedtags: string[]) {
@@ -41,16 +40,14 @@ export default class MoneyView extends Vue {
   }
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
-    //更新提交记账数据记录
-    const recordClone = recordListModel.clone(this.record);
-    recordClone.createdAt = new Date();
-    this.recordList.push(recordClone);
+    //更新提交记账数据
+    recordListModel.create(this.record)
   }
   //提交数据保存至localStorage
-  @Watch("recordList")
-  onRecordListChanged() {
-    recordListModel.save(this.recordList);
-  }
+  // @Watch("recordList")
+  // onRecordListChanged() {
+  //   recordListModel.save();
+  // }
 }
 </script>
 

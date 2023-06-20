@@ -21,7 +21,6 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 export default class Form extends Vue {
   @Prop({ required: true }) fieldName!: string;
   @Prop({ default: "" }) readonly form!: string;
-  // @Watch("form")
   onFormChanged(event: Event) {
     const target = event.target as HTMLInputElement;
     this.$emit("update:form", target.value);

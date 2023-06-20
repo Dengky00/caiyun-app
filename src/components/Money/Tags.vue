@@ -23,7 +23,7 @@ import tagListModel from "@/models/tagListModel";
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly dataSource: Tag[] | undefined;
+  @Prop({required:true}) readonly dataSource!: Tag[];
   selectedTags: string[] = [];
   toggle(tag: string) {
     //是否选中tag

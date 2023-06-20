@@ -21,14 +21,15 @@
 import Vue from "vue";
 import Button from "@/components/Button.vue";
 import { Component } from "vue-property-decorator";
+import store from "@/store/index2";
 
 @Component({
   components: { Button },
 })
 export default class LabelsView extends Vue {
-  tags = window.tagList;
+  tags = store.tagList;
   createTag() {
-    window.createTag();
+    store.createTag();
   }
 }
 </script>

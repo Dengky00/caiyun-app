@@ -14,7 +14,7 @@ import Types from "@/components/Money/Types.vue";
 import Tags from "@/components/Money/Tags.vue";
 import FormItem from "@/components/Money/FormItem.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
-import store from "@/store/index2";
+// import oldStore from "@/store/index2";
 
 @Component({
   components: {
@@ -25,8 +25,8 @@ import store from "@/store/index2";
   },
 })
 export default class MoneyView extends Vue {
-  tags = store.tagList;
-  recordList = store.recordList;
+  // tags = oldStore.tagList;
+  // recordList = oldStore.recordList;
   record: RecordItem = { type: "-", selectedtags: [], form: "", amount: 0 };
   //收集功能组件中用户提交的数据
   onUpdateSelectedTags(selectedtags: string[]) {
@@ -38,7 +38,8 @@ export default class MoneyView extends Vue {
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
     //更新提交记账数据
-    store.createRecord(this.record);
+    // oldStore.createRecord(this.record);
+    this.$store.commit('createRecord',this.record)
   }
 }
 </script>

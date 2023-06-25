@@ -18,15 +18,20 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import store from "@/store/index2";
 
 @Component
 export default class Tags extends Vue {
-  tagList = store.fetchTags();
   selectedTags: string[] = [];
+  get tagList() {
+    return this.$store.state.tagList;
+  }
+  created() {
+    this.$store.commit("fetchTags");
+  }
+  //是否选中tag
   toggle(tag: string) {
-    //是否选中tag
     const index = this.selectedTags.indexOf(tag);
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
@@ -36,7 +41,7 @@ export default class Tags extends Vue {
     this.$emit("update:selectedTags", this.selectedTags);
   }
   createTag() {
-    store.createTag();
+    this.$store.commit("createTag");
   }
 }
 </script>

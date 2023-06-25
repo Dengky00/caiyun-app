@@ -7,7 +7,7 @@
     <FormItem
       fieldName="标签名"
       class="form"
-      :form="tag.name"
+      :form="currentTag.name"
       @update:form="updateTag"
     />
     <div class="button-wrapper">
@@ -21,27 +21,27 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FormItem from "@/components/Money/FormItem.vue";
 import Button from "@/components/Button.vue";
-import store from "@/store/index2";
 
 @Component({
   components: { FormItem, Button },
 })
 export default class EditLabel extends Vue {
-  tag = store.findTag(this.$route.params.id);
+  get currentTag() {
+    return this.$store.state.currentTag;
+  }
   created() {
-    if (!this.tag) {
+    this.$store.commit("fetchTags");
+    this.$store.commit("findTag", this.$route.params.id);
+    if (!this.currentTag) {
       this.$router.replace("/404");
     }
   }
   updateTag(name: string) {
-    store.updateTag(this.tag.id, name);
+    const object = { id: this.currentTag.id, name };
+    this.$store.commit("updateTag", object);
   }
   removeTag() {
-    if (store.removeTag(this.tag.id)) {
-      this.$router.replace("/labels");
-    } else {
-      window.alert("删除失败!");
-    }
+    this.$store.commit("removeTag", this.currentTag.id);
   }
   goBack() {
     this.$router.replace("/labels");

@@ -3,7 +3,7 @@
     <div class="tags">
       <router-link
         class="tag"
-        v-for="tag in tags"
+        v-for="tag in tagList"
         :key="tag.id"
         :to="`/labels/edit/${tag.id}`"
       >
@@ -21,15 +21,19 @@
 import Vue from "vue";
 import Button from "@/components/Button.vue";
 import { Component } from "vue-property-decorator";
-import store from "@/store/index2";
 
 @Component({
   components: { Button },
 })
 export default class LabelsView extends Vue {
-  tags = store.tagList;
+  get tagList() {
+    return this.$store.state.tagList;
+  }
+  created() {
+    this.$store.commit("fetchTags");
+  }
   createTag() {
-    store.createTag();
+    this.$store.commit("createTag");
   }
 }
 </script>

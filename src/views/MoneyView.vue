@@ -1,6 +1,6 @@
 <template>
   <Layout classPrefix="layout">
-    <Types :type.sync="record.type" />
+    <Tabs :dataSource="typeList" :value.sync="record.value" />
     <Tags @update:selectedTags="onUpdateSelectedTags" />
     <FormItem fieldName="备注" @update:form="onUpdateForm" />
     <NumberPad @update:amount="onUpdateAmount" />
@@ -8,25 +8,28 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
-import Types from "@/components/Money/Types.vue";
+import { Component, Vue } from "vue-property-decorator";
+import Tabs from "@/components/Tabs.vue";
 import Tags from "@/components/Money/Tags.vue";
-import FormItem from "@/components/Money/FormItem.vue";
+import FormItem from "@/components/FormItem.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
 
 @Component({
   components: {
-    Types,
+    Tabs,
     Tags,
     FormItem,
     NumberPad,
   },
 })
 export default class MoneyView extends Vue {
-  record: RecordItem = { type: "-", selectedtags: [], form: "", amount: 0 };
-  created(){
-    this.$store.commit('fetchRecords')
+  typeList = [
+    { text: "支出", value: "-" },
+    { text: "收入", value: "+" },
+  ];
+  record: RecordItem = { value: "-", selectedtags: [], form: "", amount: 0 };
+  created() {
+    this.$store.commit("fetchRecords");
   }
   //收集功能组件中用户提交的数据
   onUpdateSelectedTags(selectedtags: string[]) {
@@ -38,7 +41,7 @@ export default class MoneyView extends Vue {
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
     //更新提交记账数据
-    this.$store.commit('createRecord',this.record)
+    this.$store.commit("createRecord", this.record);
   }
 }
 </script>

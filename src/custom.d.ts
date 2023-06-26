@@ -1,6 +1,6 @@
 type RecordItem = {
   //自定义数据类型
-  type: string;
+  value: string;
   selectedtags: string[];
   form: string;
   amount: number;

@@ -13,6 +13,7 @@ import Tabs from "@/components/Tabs.vue";
 import Tags from "@/components/Money/Tags.vue";
 import FormItem from "@/components/FormItem.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
+import typeList from "@/constants/typeList";
 
 @Component({
   components: {
@@ -23,10 +24,7 @@ import NumberPad from "@/components/Money/NumberPad.vue";
   },
 })
 export default class MoneyView extends Vue {
-  typeList = [
-    { text: "支出", value: "-" },
-    { text: "收入", value: "+" },
-  ];
+  typeList = typeList;
   record: RecordItem = { value: "-", selectedtags: [], form: "", amount: 0 };
   created() {
     this.$store.commit("fetchRecords");

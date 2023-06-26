@@ -11,6 +11,8 @@
 
 <script lang="ts">
 import Tabs from "@/components/Tabs.vue";
+import typeList from "@/constants/typeList";
+import intervalList from "@/constants/intervalList";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
@@ -21,15 +23,8 @@ import { Component, Vue } from "vue-property-decorator";
 export default class StatisticsView extends Vue {
   type = "-";
   interval = "day";
-  typeList = [
-    { text: "支出", value: "-" },
-    { text: "收入", value: "+" },
-  ];
-  intervalList = [
-    { text: "按天", value: "day" },
-    { text: "按周", value: "week" },
-    { text: "按月", value: "month" },
-  ];
+  typeList = typeList;
+  intervalList = intervalList;
 }
 </script>
 <style scoped lang="scss">

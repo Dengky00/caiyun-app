@@ -10,7 +10,7 @@ const store = new Vuex.Store({
   state: {
     recordList: [] as RecordItem[],
     tagList: [] as Tag[],
-    currentTag: {},
+    currentTag: {} as Tag,
   },
   mutations: {
     //记账操作
@@ -21,10 +21,14 @@ const store = new Vuex.Store({
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
     },
     createRecord(state, record: RecordItem) {
-      const recordClone = clone(record);
-      recordClone.createdAt = new Date();
-      state.recordList.push(recordClone);
-      store.commit('saveRecords')
+      const recordId = createId('record')
+      if (recordId) {
+        const recordClone = clone(record);
+        recordClone.id = recordId.toString();
+        recordClone.createdAt = new Date();
+        state.recordList.push(recordClone);
+        store.commit('saveRecords')
+      }
     },
     //标签操作
     fetchTags(state) {
@@ -40,10 +44,13 @@ const store = new Vuex.Store({
         if (names.indexOf(name) >= 0) {
           window.alert("标签名重复!");
         } else {
-          const id = createId().toString()
-          state.tagList.push({ id, name: name })
-          store.commit('saveTags')
-          window.alert("添加成功!")
+          const tagId = createId('tag')
+          if (tagId) {
+            const id = tagId.toString()
+            state.tagList.push({ id, name: name })
+            store.commit('saveTags')
+            window.alert("添加成功!")
+          }
         }
       }
     },

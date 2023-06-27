@@ -1,10 +1,11 @@
 type RecordItem = {
-  //自定义数据类型
+  //自定义数据类型 
   value: string;
   selectedtags: string[];
   form: string;
   amount: number;
-  createdAt?: Date;
+  createdAt?: string;
+  id?: string;
 };
 type Tag = {
   id: string

@@ -1,7 +1,7 @@
 <template>
   <Layout classPrefix="layout">
     <Tabs :dataSource="typeList" :value.sync="record.value" />
-    <Tags @update:selectedTags="onUpdateSelectedTags" />
+    <Tags @update:selectedTag="onUpdateSelectedTag" />
     <FormItem fieldName="备注" @update:form="onUpdateForm" />
     <NumberPad @update:amount="onUpdateAmount" />
   </Layout>
@@ -25,13 +25,13 @@ import typeList from "@/constants/typeList";
 })
 export default class MoneyView extends Vue {
   typeList = typeList;
-  record: RecordItem = { value: "-", selectedtags: [], form: "", amount: 0 };
+  record: RecordItem = { value: "-", selectedtag: "", form: "", amount: 0 };
   created() {
     this.$store.commit("fetchRecords");
   }
   //收集功能组件中用户提交的数据
-  onUpdateSelectedTags(selectedtags: string[]) {
-    this.record.selectedtags = selectedtags;
+  onUpdateSelectedTag(selectedtag: string) {
+    this.record.selectedtag = selectedtag;
   }
   onUpdateForm(form: string) {
     this.record.form = form;
@@ -39,7 +39,9 @@ export default class MoneyView extends Vue {
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
     //更新提交记账数据
-    this.$store.commit("createRecord", this.record);
+    if(this.record.selectedtag){
+      this.$store.commit("createRecord", this.record);
+    }
   }
 }
 </script>

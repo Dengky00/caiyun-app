@@ -1,7 +1,7 @@
 type RecordItem = {
   //自定义数据类型 
   value: string;
-  selectedtags: string[];
+  selectedtag: string;
   form: string;
   amount: number;
   createdAt?: string;

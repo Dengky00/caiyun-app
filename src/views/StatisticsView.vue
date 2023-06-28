@@ -7,11 +7,11 @@
       classPrefix="interval"
     />
     <ol>
-      <li v-for="(group, index) in result" :key="index">
-        <h3 class="title">{{ group.title }}</h3>
+      <li v-for="(group, key) in result" :key="key">
+        <h3 class="key">{{ beautify(key) }}</h3>
         <ol>
-          <li v-for="item in group.items" :key="item.id" class="record">
-            <span>{{ tagString(item.selectedtags) }}</span>
+          <li v-for="item in group" :key="item.id" class="record">
+            <span>{{ item.selectedtag }}</span>
             <span class="form">{{ item.form }}</span>
             <span>￥{{ item.amount }}</span>
           </li>
@@ -26,6 +26,7 @@ import Tabs from "@/components/Tabs.vue";
 import typeList from "@/constants/typeList";
 import intervalList from "@/constants/intervalList";
 import { Component, Vue } from "vue-property-decorator";
+import dayjs from "dayjs";
 
 @Component({
   components: {
@@ -42,21 +43,32 @@ export default class StatisticsView extends Vue {
   }
   get result() {
     const { recordList } = this;
-    const hashTable: {
-      [key: string]: { title: string; items: RecordItem[] };
-    } = {};
+    const hashTable: { [key: string]: RecordItem[] } = {};
     for (let i = 0; i < recordList.length; i++) {
-      const [date, time] = recordList[i].createdAt!.split("T");
-      hashTable[date] = hashTable[date] || { title: date, items: [] };
-      hashTable[date].items.push(recordList[i]);
+      const date = dayjs(recordList[i].createdAt).format("YYYY-MM-DD");
+      hashTable[date] = hashTable[date] || [];
+      hashTable[date].push(recordList[i]);
     }
     return hashTable;
   }
   created() {
     this.$store.commit("fetchRecords");
   }
-  tagString(tags: string[]) {
-    return tags.join(",");
+  beautify(date: string | number) {
+    date = date.toString();
+    const day=dayjs(date)
+    const now=dayjs()
+    if(day.isSame(now,'day')){
+      return '今天'
+    }else if(day.isSame(now.subtract(1,'day'),'day')){
+      return '昨天'
+    }else if(day.isSame(now.subtract(2,'day'),'day')){
+      return '前天'
+    }else if(day.isSame(now,'year')){
+      return day.format('M月D日')
+    }else{
+      return day.format("YYYY年M月D日")
+    }
   }
 }
 </script>
@@ -84,15 +96,14 @@ export default class StatisticsView extends Vue {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px red solid;
 }
-.title {
+.key {
   @extend %item;
 }
 .record {
   @extend %item;
 }
-.form{
+.form {
   margin-right: auto;
   margin-left: 16px;
   color: #999;

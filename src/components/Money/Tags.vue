@@ -5,7 +5,7 @@
         v-for="tag in tagList"
         :key="tag.id"
         @click="toggle(tag.name)"
-        :class="{ selected: selectedTags.indexOf(tag.name) >= 0 }"
+        :class="{ selected: selectedTag === tag.name }"
       >
         {{ tag.name }}
       </li>
@@ -17,12 +17,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Tags extends Vue {
-  selectedTags: string[] = [];
+  selectedTag = "";
   get tagList() {
     return this.$store.state.tagList;
   }
@@ -31,13 +30,8 @@ export default class Tags extends Vue {
   }
   //是否选中tag
   toggle(tag: string) {
-    const index = this.selectedTags.indexOf(tag);
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
-    } else {
-      this.selectedTags.push(tag);
-    }
-    this.$emit("update:selectedTags", this.selectedTags);
+    this.selectedTag = tag;
+    this.$emit("update:selectedTag", this.selectedTag);
   }
   createTag() {
     this.$store.commit("createTag");

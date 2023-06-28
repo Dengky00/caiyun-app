@@ -40,7 +40,7 @@ export default class NumberPad extends Vue {
       this.amount = this.amount.slice(0, -1);
     } else if (button.className === "ok") {
       //ok提交按钮
-      if (this.amount !== "") {
+      if (this.amount && this.amount !== "0" && this.amount !== "0.") {
         this.$emit("update:amount", this.amount);
         this.amount = "";
       }

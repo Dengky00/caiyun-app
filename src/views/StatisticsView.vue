@@ -44,6 +44,9 @@ export default class StatisticsView extends Vue {
   get result() {
     const { recordList } = this;
     const hashTable: { [key: string]: RecordItem[] } = {};
+    recordList.sort((r1, r2) => {
+      return dayjs(r2.createdAt).valueOf() - dayjs(r1.createdAt).valueOf();
+    });
     for (let i = 0; i < recordList.length; i++) {
       const date = dayjs(recordList[i].createdAt).format("YYYY-MM-DD");
       hashTable[date] = hashTable[date] || [];
@@ -56,18 +59,18 @@ export default class StatisticsView extends Vue {
   }
   beautify(date: string | number) {
     date = date.toString();
-    const day=dayjs(date)
-    const now=dayjs()
-    if(day.isSame(now,'day')){
-      return '今天'
-    }else if(day.isSame(now.subtract(1,'day'),'day')){
-      return '昨天'
-    }else if(day.isSame(now.subtract(2,'day'),'day')){
-      return '前天'
-    }else if(day.isSame(now,'year')){
-      return day.format('M月D日')
-    }else{
-      return day.format("YYYY年M月D日")
+    const day = dayjs(date);
+    const now = dayjs();
+    if (day.isSame(now, "day")) {
+      return "今天";
+    } else if (day.isSame(now.subtract(1, "day"), "day")) {
+      return "昨天";
+    } else if (day.isSame(now.subtract(2, "day"), "day")) {
+      return "前天";
+    } else if (day.isSame(now, "year")) {
+      return day.format("M月D日");
+    } else {
+      return day.format("YYYY年M月D日");
     }
   }
 }

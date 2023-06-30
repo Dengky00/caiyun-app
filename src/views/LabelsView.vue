@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    <Tabs :dataSource="typeList" :value.sync="type"/>
     <div class="tags">
       <router-link
         class="tag"
@@ -18,22 +19,25 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { Component, Vue } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
-import { Component } from "vue-property-decorator";
+import Tabs from "@/components/Tabs.vue";
+import typeList from "@/constants/typeList";
 
 @Component({
-  components: { Button },
+  components: { Button, Tabs },
 })
 export default class LabelsView extends Vue {
+  type = "-";
+  typeList = typeList;
   get tagList() {
-    return this.$store.state.tagList;
+    return this.$store.state.tagList.filter((t: Tag) => t.type === this.type);
   }
   created() {
     this.$store.commit("fetchTags");
   }
   createTag() {
-    this.$store.commit("createTag");
+    this.$store.commit("createTag",this.type);
   }
 }
 </script>

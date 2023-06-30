@@ -8,12 +8,15 @@
     />
     <ol>
       <li v-for="(group, key) in result" :key="key">
-        <h3 class="key">{{ beautify(key) }}</h3>
+        <h3 class="key">
+          <span>{{ beautify(key) }}</span>
+          <span>{{ type }}￥{{ recordSum(group) }}</span>
+        </h3>
         <ol>
           <li v-for="item in group" :key="item.id" class="record">
             <span>{{ item.selectedtag }}</span>
             <span class="form">{{ item.form }}</span>
-            <span>￥{{ item.amount }}</span>
+            <span>{{ type }}￥{{ item.amount }}</span>
           </li>
         </ol>
       </li>
@@ -27,6 +30,7 @@ import typeList from "@/constants/typeList";
 import intervalList from "@/constants/intervalList";
 import { Component, Vue } from "vue-property-decorator";
 import dayjs from "dayjs";
+import Decimal from "decimal.js";
 
 @Component({
   components: {
@@ -42,15 +46,24 @@ export default class StatisticsView extends Vue {
     return this.$store.state.recordList as RecordItem[];
   }
   get result() {
-    const { recordList } = this;
+    let string = "";
+    const { recordList, type, interval } = this;
     const hashTable: { [key: string]: RecordItem[] } = {};
     recordList.sort((r1, r2) => {
       return dayjs(r2.createdAt).valueOf() - dayjs(r1.createdAt).valueOf();
     });
-    for (let i = 0; i < recordList.length; i++) {
-      const date = dayjs(recordList[i].createdAt).format("YYYY-MM-DD");
+    const newList = recordList.filter((r) => r.value === type);
+    if (interval === "day") {
+      string = "YYYY年M月D日";
+    } else if (interval === "month") {
+      string = "YYYY年M月";
+    } else if (interval === "year") {
+      string = "YYYY年";
+    }
+    for (let r of newList) {
+      const date = dayjs(r.createdAt).format(string);
       hashTable[date] = hashTable[date] || [];
-      hashTable[date].push(recordList[i]);
+      hashTable[date].push(r);
     }
     return hashTable;
   }
@@ -59,19 +72,41 @@ export default class StatisticsView extends Vue {
   }
   beautify(date: string | number) {
     date = date.toString();
-    const day = dayjs(date);
     const now = dayjs();
-    if (day.isSame(now, "day")) {
-      return "今天";
-    } else if (day.isSame(now.subtract(1, "day"), "day")) {
-      return "昨天";
-    } else if (day.isSame(now.subtract(2, "day"), "day")) {
-      return "前天";
-    } else if (day.isSame(now, "year")) {
-      return day.format("M月D日");
-    } else {
-      return day.format("YYYY年M月D日");
+    let nowDate = "";
+    if (this.interval === "day") {
+      nowDate = now.format("YYYY年M月D日");
+      if (nowDate === date) {
+        return "今天";
+      } else if (nowDate.substring(0, 4) === date.substring(0, 4)) {
+        return date.substring(5);
+      } else {
+        return date;
+      }
+    } else if (this.interval === "month") {
+      nowDate = now.format("YYYY年M月");
+      if (nowDate === date) {
+        return "本月";
+      } else if (nowDate.substring(0, 4) === date.substring(0, 4)) {
+        return date.substring(5);
+      } else {
+        return date;
+      }
+    } else if (this.interval === "year") {
+      nowDate = now.format("YYYY年");
+      if (nowDate === date) {
+        return "今年";
+      } else {
+        return date;
+      }
     }
+  }
+  recordSum(group: RecordItem[]) {
+    let sum = new Decimal(0);
+    for (let r of group) {
+      sum = new Decimal(sum).add(new Decimal(r.amount));
+    }
+    return sum;
   }
 }
 </script>
@@ -100,9 +135,7 @@ export default class StatisticsView extends Vue {
   justify-content: space-between;
   align-items: center;
 }
-.key {
-  @extend %item;
-}
+.key,
 .record {
   @extend %item;
 }
@@ -111,5 +144,9 @@ export default class StatisticsView extends Vue {
   margin-left: 16px;
   color: #999;
   font-size: 12px;
+}
+h3 {
+  background: #ebebeb;
+  @extend %item;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <Layout classPrefix="layout">
+  <Layout classPrefix="layout" :style="{ height: h + 'px' }">
     <Tabs :dataSource="typeList" :value.sync="record.value" />
-    <Tags @update:selectedTag="onUpdateSelectedTag" />
-    <FormItem fieldName="备注" @update:form="onUpdateForm" />
+    <Tags :selectedTag.sync="record.selectedtag" :type="record.value" />
+    <FormItem fieldName="备注" :form.sync="record.form" />
     <NumberPad @update:amount="onUpdateAmount" />
   </Layout>
 </template>
@@ -24,24 +24,25 @@ import typeList from "@/constants/typeList";
   },
 })
 export default class MoneyView extends Vue {
+  h?: number;
   typeList = typeList;
   record: RecordItem = { value: "-", selectedtag: "", form: "", amount: 0 };
   created() {
     this.$store.commit("fetchRecords");
   }
   //收集功能组件中用户提交的数据
-  onUpdateSelectedTag(selectedtag: string) {
-    this.record.selectedtag = selectedtag;
-  }
-  onUpdateForm(form: string) {
-    this.record.form = form;
-  }
   onUpdateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
     //更新提交记账数据
-    if(this.record.selectedtag){
+    if (this.record.selectedtag) {
       this.$store.commit("createRecord", this.record);
+      this.record.form = "";
+    } else if (this.record.selectedtag === "") {
+      window.alert("未选择标签!");
     }
+  }
+  mounted() {
+    this.h = document.body.clientHeight;
   }
 }
 </script>

@@ -17,24 +17,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Tags extends Vue {
-  selectedTag = "";
+  @Prop({ default: "" }) selectedTag?: string;
+  @Prop() type!: string;
   get tagList() {
-    return this.$store.state.tagList;
+    return this.$store.state.tagList.filter((t: Tag) => t.type === this.type);
   }
   created() {
     this.$store.commit("fetchTags");
   }
   //是否选中tag
-  toggle(tag: string) {
-    this.selectedTag = tag;
-    this.$emit("update:selectedTag", this.selectedTag);
+  toggle(tagName: string) {
+    // this.selectedTag = tag;
+    this.$emit("update:selectedTag", tagName);
   }
   createTag() {
-    this.$store.commit("createTag");
+    this.$store.commit("createTag", this.type);
   }
 }
 </script>

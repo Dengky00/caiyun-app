@@ -11,6 +11,7 @@ const store = new Vuex.Store({
     recordList: [] as RecordItem[],
     tagList: [] as Tag[],
     currentTag: {} as Tag,
+    createRecordError: null,
   },
   mutations: {
     //记账操作
@@ -18,7 +19,7 @@ const store = new Vuex.Store({
       state.recordList = JSON.parse(window.localStorage.getItem('recordList') || "[]") as RecordItem[]
     },
     saveRecords(state) {
-      window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
+      window.localStorage.setItem('recordList', JSON.stringify(state.recordList))
     },
     createRecord(state, record: RecordItem) {
       const recordId = createId('record')
@@ -28,6 +29,7 @@ const store = new Vuex.Store({
         recordClone.createdAt = new Date();
         state.recordList.push(recordClone);
         store.commit('saveRecords')
+        window.alert('记账成功!')
       }
     },
     //标签操作
@@ -37,7 +39,7 @@ const store = new Vuex.Store({
     saveTags(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     },
-    createTag(state) {
+    createTag(state,type:string) {
       const name = window.prompt("请输出标签名:");
       const names = state.tagList.map(item => item.name)
       if (name) {
@@ -47,7 +49,7 @@ const store = new Vuex.Store({
           const tagId = createId('tag')
           if (tagId) {
             const id = tagId.toString()
-            state.tagList.push({ id, name: name })
+            state.tagList.push({ id, name: name,type})
             store.commit('saveTags')
             window.alert("添加成功!")
           }

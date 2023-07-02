@@ -1,7 +1,10 @@
 <template>
-  <Layout classPrefix="layout" :style="{ height: h + 'px' }">
+  <Layout classPrefix="layout">
     <Tabs :dataSource="typeList" :value.sync="record.value" />
     <Tags :selectedTag.sync="record.selectedtag" :type="record.value" />
+    <!-- <FormItem fieldName="日期" :form.sync="record.createdAt" /> -->
+    <recordDate :date.sync="record.createdAt" />
+    <hr />
     <FormItem fieldName="备注" :form.sync="record.form" />
     <NumberPad @update:amount="onUpdateAmount" />
   </Layout>
@@ -13,7 +16,9 @@ import Tabs from "@/components/Tabs.vue";
 import Tags from "@/components/Money/Tags.vue";
 import FormItem from "@/components/FormItem.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
+import recordDate from "@/components/Money/recordDate.vue";
 import typeList from "@/constants/typeList";
+import dayjs from "dayjs";
 
 @Component({
   components: {
@@ -21,12 +26,18 @@ import typeList from "@/constants/typeList";
     Tags,
     FormItem,
     NumberPad,
+    recordDate,
   },
 })
 export default class MoneyView extends Vue {
-  h?: number;
   typeList = typeList;
-  record: RecordItem = { value: "-", selectedtag: "", form: "", amount: 0 };
+  record: RecordItem = {
+    value: "-",
+    selectedtag: "",
+    form: "",
+    amount: 0,
+    createdAt: dayjs().format("YYYY-MM-DD"),
+  };
   created() {
     this.$store.commit("fetchRecords");
   }
@@ -40,9 +51,6 @@ export default class MoneyView extends Vue {
     } else if (this.record.selectedtag === "") {
       window.alert("未选择标签!");
     }
-  }
-  mounted() {
-    this.h = document.body.clientHeight;
   }
 }
 </script>

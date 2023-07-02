@@ -1,28 +1,23 @@
 <template>
   <label>
     <span class="name">
-      <Icon name="edit" />
-      {{ fieldName }}
+      <Icon name="date" />
+      日期
     </span>
-    <input
-      type="text"
-      :placeholder="'在这里输入' + fieldName"
-      :value="form"
-      @input="onFormChanged($event)"
-    />
+    <input type="date" :value="date" @input="onDateChanged($event)" />
   </label>
 </template>
 
 <script lang="ts">
+import dayjs from "dayjs";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Form extends Vue {
-  @Prop({ required: true }) fieldName!: string;
-  @Prop({ default: "" }) readonly form!: string;
-  onFormChanged(event: Event) {
+export default class recordDate extends Vue {
+  @Prop() readonly date!: string;
+  onDateChanged(event: Event) {
     const target = event.target as HTMLInputElement;
-    this.$emit("update:form", target.value);
+    this.$emit("update:date", target.value);
   }
 }
 </script>
@@ -42,7 +37,7 @@ label {
     flex-grow: 1;
     background: transparent;
     border: none;
-    padding-right: 16px;
+    margin-right: 16px;
   }
 }
 </style>

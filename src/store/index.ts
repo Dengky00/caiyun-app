@@ -26,7 +26,7 @@ const store = new Vuex.Store({
       if (recordId) {
         const recordClone = clone(record);
         recordClone.id = recordId.toString();
-        recordClone.createdAt = new Date();
+        recordClone.createdAt = recordClone.createdAt || new Date().toISOString();
         state.recordList.push(recordClone);
         store.commit('saveRecords')
         window.alert('记账成功!')
@@ -39,7 +39,7 @@ const store = new Vuex.Store({
     saveTags(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     },
-    createTag(state,type:string) {
+    createTag(state, type: string) {
       const name = window.prompt("请输出标签名:");
       const names = state.tagList.map(item => item.name)
       if (name) {
@@ -49,7 +49,7 @@ const store = new Vuex.Store({
           const tagId = createId('tag')
           if (tagId) {
             const id = tagId.toString()
-            state.tagList.push({ id, name: name,type})
+            state.tagList.push({ id, name: name, type })
             store.commit('saveTags')
             window.alert("添加成功!")
           }

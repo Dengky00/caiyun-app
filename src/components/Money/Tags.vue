@@ -9,10 +9,10 @@
       >
         {{ tag.name }}
       </li>
+      <li class="new">
+        <router-link to="/money/labels"> + </router-link>
+      </li>
     </ul>
-    <div class="new">
-      <button @click="createTag">新增标签</button>
-    </div>
   </div>
 </template>
 
@@ -31,11 +31,7 @@ export default class Tags extends Vue {
   }
   //是否选中tag
   toggle(tagName: string) {
-    // this.selectedTag = tag;
     this.$emit("update:selectedTag", tagName);
-  }
-  createTag() {
-    this.$store.commit("createTag", this.type);
   }
 }
 </script>
@@ -64,16 +60,12 @@ export default class Tags extends Vue {
       &.selected {
         background: $yellow;
       }
-    }
-  }
-  > .new {
-    padding-top: 16px;
-    button {
-      background: transparent;
-      border: none;
-      color: #999;
-      border-bottom: 1px solid;
-      padding: 0 4px;
+      &.new {
+        padding: 0;
+        font-size: 38px;
+        min-width: 48px;
+        border-radius: 50%;
+      }
     }
   }
 }

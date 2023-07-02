@@ -1,12 +1,12 @@
 <template>
   <Layout>
-    <Tabs :dataSource="typeList" :value.sync="type"/>
+    <Tabs :dataSource="typeList" :value.sync="type" />
     <div class="tags">
       <router-link
         class="tag"
         v-for="tag in tagList"
         :key="tag.id"
-        :to="`/labels/edit/${tag.id}`"
+        :to="`/money/labels/edit/${tag.id}`"
       >
         <span>{{ tag.name }}</span>
         <Icon name="right" />
@@ -37,7 +37,7 @@ export default class LabelsView extends Vue {
     this.$store.commit("fetchTags");
   }
   createTag() {
-    this.$store.commit("createTag",this.type);
+    this.$store.commit("createTag", this.type);
   }
 }
 </script>

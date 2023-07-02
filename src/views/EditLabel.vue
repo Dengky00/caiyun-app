@@ -44,7 +44,7 @@ export default class EditLabel extends Vue {
     this.$store.commit("removeTag", this.currentTag.id);
   }
   goBack() {
-    this.$router.replace("/labels");
+    this.$router.replace("/money/labels");
   }
 }
 </script>

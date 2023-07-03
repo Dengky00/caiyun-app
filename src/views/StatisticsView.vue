@@ -104,9 +104,9 @@ export default class StatisticsView extends Vue {
   recordSum(group: RecordItem[]) {
     let sum = new Decimal(0);
     for (let r of group) {
-      sum = new Decimal(sum).add(new Decimal(r.amount));
+      sum = sum.add(new Decimal(r.amount));
     }
-    return sum;
+    return sum.toNumber();
   }
 }
 </script>

@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import dayjs from "dayjs";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component

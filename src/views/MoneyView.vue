@@ -16,7 +16,7 @@ import Tabs from "@/components/Tabs.vue";
 import Tags from "@/components/Money/Tags.vue";
 import FormItem from "@/components/FormItem.vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
-import recordDate from "@/components/Money/recordDate.vue";
+import recordDate from "@/components/recordDate.vue";
 import typeList from "@/constants/typeList";
 import dayjs from "dayjs";
 

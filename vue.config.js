@@ -1,7 +1,9 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
 module.exports = defineConfig({
-  publicPath: '',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/caiyun-app-website/'
+    : '/',
   transpileDependencies: true,
   lintOnSave: false,
   chainWebpack: config => {

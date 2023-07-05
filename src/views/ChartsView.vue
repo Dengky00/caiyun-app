@@ -105,7 +105,6 @@ export default class ChartsView extends Vue {
   }
   @Watch("dateList")
   onValueChanged() {
-    console.log(this.dateList);
     this.myChart?.setOption({
       series: [{ data: this.dateList }],
     });

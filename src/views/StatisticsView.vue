@@ -13,10 +13,24 @@
           <span>{{ type }}￥{{ recordSum(group) }}</span>
         </h3>
         <ol>
-          <li v-for="item in group" :key="item.id" class="record">
+          <li
+            v-for="item in group"
+            :key="item.id"
+            class="record"
+            :class="{ ['removeRecord']: showModal === item.id }"
+            @click="open(item.id, $event)"
+          >
             <span>{{ item.selectedtag }}</span>
             <span class="form">{{ item.form }}</span>
             <span>{{ type }}￥{{ item.amount }}</span>
+            <!-- 弹窗 -->
+            <div class="modal" v-if="showModal === item.id">
+              <p>你确定要删除这条记账吗?</p>
+              <div class="buttons">
+                <button @click="remove(item.id)">确定</button>
+                <button @click="close($event)">取消</button>
+              </div>
+            </div>
           </li>
         </ol>
       </li>
@@ -42,6 +56,7 @@ export default class StatisticsView extends Vue {
   interval = "day";
   typeList = typeList;
   intervalList = intervalList;
+  showModal = "";
   get recordList() {
     return this.$store.state.recordList as RecordItem[];
   }
@@ -108,10 +123,25 @@ export default class StatisticsView extends Vue {
     }
     return sum.toNumber();
   }
+  open(id: string, e: Event) {
+    const modal = document.querySelector(".modal");
+    if (!modal) {
+      this.showModal = id;
+    }
+  }
+  close(e: Event) {
+    this.showModal = "";
+    e.stopPropagation(); //阻止事件向外传播
+  }
+  remove(id: string) {
+    this.$store.commit("removeRecord", id);
+    this.showModal = "";
+  }
 }
 </script>
 
 <style scoped lang="scss">
+@import "~@/assets/style/helper.scss";
 ::v-deep .interval-tabs-item {
   font-size: 20px;
   padding: 14px 0 4px 0;
@@ -148,5 +178,33 @@ export default class StatisticsView extends Vue {
 h3 {
   background: #ebebeb;
   @extend %item;
+}
+.removeRecord {
+  background: #ffaa44;
+}
+.modal {
+  @extend %outerShadow;
+  border-radius: 6px;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  width: 80%;
+  height: 150px;
+  font-size: 22px;
+  font-weight: bolder;
+  > p {
+    height: 50%;
+  }
+  > .buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    > button {
+      padding: 5px 10px;
+    }
+  }
 }
 </style>

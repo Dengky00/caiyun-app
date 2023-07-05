@@ -32,6 +32,7 @@ import dayjs from "dayjs";
 export default class MoneyView extends Vue {
   typeList = typeList;
   record: RecordItem = {
+    id: "0",
     value: "-",
     selectedtag: "",
     form: "",

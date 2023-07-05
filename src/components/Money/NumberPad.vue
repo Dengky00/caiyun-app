@@ -35,7 +35,7 @@ export default class NumberPad extends Vue {
     const button = event.target as HTMLButtonElement;
     const input = button.textContent!; //使用'!'表示确保变量的值不为null或undefined
     const length = this.amount.length;
-    if (button.className === "delete") {
+    if (button.className === "delete" || button.nodeName === "svg") {
       //删除按钮
       this.amount = this.amount.slice(0, -1);
     } else if (button.className === "ok") {

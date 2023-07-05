@@ -32,6 +32,21 @@ const store = new Vuex.Store({
         window.alert('记账成功!')
       }
     },
+    removeRecord(state, id: string) {
+      let index = -1
+      for (let i = 0; i < state.recordList.length; i++) {
+        if (state.recordList[i].id === id) {
+          index = i
+          break
+        }
+      }
+      if (index >= 0) {
+        state.recordList.splice(index, 1)
+        store.commit('saveRecords')
+      } else {
+        window.alert('删除失败!')
+      }
+    },
     //标签操作
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || "[]")

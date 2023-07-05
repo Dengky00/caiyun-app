@@ -1,5 +1,5 @@
 <template>
-  <svg class="icon" @click="$emit('click',$event)">
+  <svg class="icon" @click="$emit('click', $event)">
     <use :xlink:href="'#' + name" />
   </svg>
 </template>
@@ -25,7 +25,7 @@ export default Vue.extend({
 .icon {
   width: 1em;
   height: 1em;
-  fill:currentColor;
+  fill: currentColor;
   vertical-align: -0.15em;
 }
 </style>

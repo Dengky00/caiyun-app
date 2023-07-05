@@ -5,7 +5,7 @@ type RecordItem = {
   form: string;
   amount: number;
   createdAt?: string;
-  id?: string;
+  id: string;
 };
 type Tag = {
   id: string

@@ -61,7 +61,7 @@ export default class ChartsView extends Vue {
     return sum.toNumber();
   }
   get sumMoney() {
-    return this.addMoney - this.subMoney;
+    return Decimal.sub(this.addMoney, this.subMoney).toNumber();
   }
   get dateList() {
     let dateSubList = this.mergedDate(this.subRecord);
